@@ -2,6 +2,7 @@ import './styles.css';
 const bodyRef = document.querySelector('body');
 const themeSwitchContainerRef = document.querySelector('#theme-switch-toggle');
 
+//Проверка темы при загрузке страницы
 if (localStorage.getItem('theme') === 'light') {
   bodyRef.classList.add('light-theme');
 } else {
