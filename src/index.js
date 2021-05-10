@@ -2,32 +2,33 @@ import './styles.css';
 const bodyRef = document.querySelector('body');
 const menuContainerRef = document.querySelector('.js-menu');
 const themeSwitchContainerRef = document.querySelector('#theme-switch-toggle');
-
-//Проверка темы при загрузке страницы
-if (localStorage.getItem('theme') === 'light') {
-  bodyRef.classList.add('light-theme');
-} else {
-  themeSwitchContainerRef.checked = 'true';
-  bodyRef.classList.add('dark-theme');
-}
-
-bodyRef.classList.add('light-theme');
-
 themeSwitchContainerRef.addEventListener('change', onSwitchThemeChanged);
 
+//Проверка темы при первоначальной загрузке страницы.
+//Если сайт раньше на загружался, то theme: null
+if (localStorage.getItem('theme') === 'dark-theme') {
+  bodyRef.classList.add('dark-theme');
+  themeSwitchContainerRef.checked = 'true';
+} else {
+  localStorage.setItem('theme', 'light-theme');
+  bodyRef.classList.add('light-theme');
+}
+
 function onSwitchThemeChanged() {
-  if (localStorage.theme === 'light') {
+  //функция изменения фона при событии на инпуте
+  if (localStorage.theme === 'light-theme') {
     bodyRef.classList.replace('light-theme', 'dark-theme');
-    localStorage.setItem('theme', 'dark');
+    localStorage.setItem('theme', 'dark-theme');
   } else {
     bodyRef.classList.replace('dark-theme', 'light-theme');
-    localStorage.setItem('theme', 'light');
+    localStorage.setItem('theme', 'light-theme');
   }
 }
 
+//импорт данных
 import menuJs from './menu.json';
 import menuTemplate from './templates/menu.hbs';
-
+//создание и публикация разметки
 let markup = '';
 menuJs.forEach(item => (markup += menuTemplate(item)));
 menuContainerRef.insertAdjacentHTML('afterbegin', markup);
