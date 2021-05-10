@@ -1,5 +1,6 @@
 import './styles.css';
 const bodyRef = document.querySelector('body');
+const menuContainerRef = document.querySelector('.js-menu');
 const themeSwitchContainerRef = document.querySelector('#theme-switch-toggle');
 
 //Проверка темы при загрузке страницы
@@ -10,22 +11,29 @@ if (localStorage.getItem('theme') === 'light') {
   bodyRef.classList.add('dark-theme');
 }
 
-// localStorage.setItem('theme', 'light');
 bodyRef.classList.add('light-theme');
 
 console.log(themeSwitchContainerRef);
 
 themeSwitchContainerRef.addEventListener('change', onSwitchThemeChanged);
 
-function onSwitchThemeChanged(evt) {
+function onSwitchThemeChanged() {
   console.log('Changed', themeSwitchContainerRef.checked);
   if (localStorage.theme === 'light') {
-    console.log(localStorage.getItem('theme'));
     bodyRef.classList.replace('light-theme', 'dark-theme');
     localStorage.setItem('theme', 'dark');
-    console.log(localStorage.getItem('theme'));
   } else {
     bodyRef.classList.replace('dark-theme', 'light-theme');
     localStorage.setItem('theme', 'light');
   }
 }
+
+import menuJs from './menu.json';
+
+import menuTemplate from './templates/menu.hbs';
+
+let markup = '';
+
+menuJs.forEach(item => (markup += menuTemplate(item)));
+
+menuContainerRef.insertAdjacentHTML('afterbegin', markup);
